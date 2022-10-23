@@ -6,7 +6,7 @@ import marker from "../../assets/icons/marker.svg";
 
 const Information = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-8 px-12">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-8 px-10">
       <InformationCard
         other="Started time 10:00 - 1:00"
         title="Opening Hours"
