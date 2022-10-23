@@ -1,6 +1,7 @@
 import React from "react";
 import chair from "../../assets/images/chair.png";
 import bg from "../../assets/images/bg.png";
+import Button from "../../common/Button";
 const Banner = () => {
   return (
     <div
@@ -25,9 +26,7 @@ const Banner = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <button className="btn border-white text-white  uppercase font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-            Get Started
-          </button>
+          <Button title="Get Started" />
         </div>
       </div>
     </div>
