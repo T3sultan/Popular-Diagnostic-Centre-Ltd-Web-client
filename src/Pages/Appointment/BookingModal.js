@@ -65,7 +65,7 @@ const BookingModal = ({ treatment, date, setTreatment }) => {
             <input
               type="submit"
               value="Submit"
-              className="btn btn-secondary bg-secondary w-full max-w-xs"
+              className="btn btn-secondary  w-full max-w-xs"
             />
           </form>
         </div>
