@@ -1,7 +1,12 @@
 import React from "react";
 import auth from "../../../firebase.init";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import Loading from "../../Shared/Loading";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -9,12 +14,29 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = data => {
+    console.log(data);
+    signInWithEmailAndPassword(data.email, data.password);
+  };
+  let errorMessage;
 
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  if (user) {
-    console.log(user);
+  if (loading || gloading) {
+    return <Loading />;
+  }
+  if (gerror || error) {
+    errorMessage = (
+      <p className="text-red-500 text-sm">
+        {error?.message || gerror?.message}
+      </p>
+    );
+  }
+
+  if (guser || user) {
+    console.log(guser, user);
   }
   return (
     <div className="h-screen flex justify-center items-center">
@@ -80,13 +102,19 @@ const Login = () => {
                 )}
               </label>
             </div>
-
+            {errorMessage}
             <input
               className="btn w-full max-w-xs text-black"
               type="submit"
               value="Login"
             />
           </form>
+          <p className="text-sm">
+            New Popular Diagnostic Centre?{" "}
+            <Link className="text-primary" to="/signup">
+              Create Account
+            </Link>{" "}
+          </p>
           <div className="divider">OR</div>
           <button
             onClick={() => signInWithGoogle()}
