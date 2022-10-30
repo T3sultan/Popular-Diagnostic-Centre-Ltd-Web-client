@@ -6,7 +6,8 @@ import {
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import Loading from "../../Shared/Loading";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Login = () => {
   const {
@@ -18,11 +19,21 @@ const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
+  let errorMessage;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const onSubmit = data => {
     console.log(data);
     signInWithEmailAndPassword(data.email, data.password);
   };
-  let errorMessage;
+  useEffect(() => {
+    if (guser || user) {
+      // console.log(guser, user);
+      navigate(from, { replace: true });
+    }
+  }, [user, guser, from, navigate]);
 
   if (loading || gloading) {
     return <Loading />;
@@ -35,9 +46,6 @@ const Login = () => {
     );
   }
 
-  if (guser || user) {
-    console.log(guser, user);
-  }
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">

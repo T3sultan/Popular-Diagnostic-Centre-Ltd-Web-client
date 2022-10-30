@@ -2,13 +2,15 @@ import React from "react";
 import {
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
+  useUpdateProfile,
 } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import Loading from "../../Shared/Loading";
 import { useForm } from "react-hook-form";
 
 const Signup = () => {
+  const [updateProfile, updating, uerror] = useUpdateProfile(auth);
   const {
     register,
     formState: { errors },
@@ -18,20 +20,24 @@ const Signup = () => {
 
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+  const navigate = useNavigate();
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     console.log(data);
-    createUserWithEmailAndPassword(data.email, data.password);
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await updateProfile({ displayName: data.name });
+    console.log("update data");
+    navigate("/appointment");
   };
   let errorMessage;
 
-  if (loading || gloading) {
+  if (loading || gloading || updating) {
     return <Loading />;
   }
-  if (gerror || error) {
+  if (gerror || error || uerror) {
     errorMessage = (
       <p className="text-red-500 text-sm">
-        {error?.message || gerror?.message}
+        {error?.message || gerror?.message || uerror?.message}
       </p>
     );
   }
