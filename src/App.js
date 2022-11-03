@@ -12,6 +12,7 @@ import NavBar from "./Pages/Shared/NavBar";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import MyAppointments from "./Pages/Dashboard/MyAppointments";
 import MyReview from "./Pages/Dashboard/MyReview";
+import History from "./Pages/Dashboard/History";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         >
           <Route index element={<MyAppointments />}></Route>
           <Route path="myreview" element={<MyReview />}></Route>
+          <Route path="history" element={<History />}></Route>
         </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
