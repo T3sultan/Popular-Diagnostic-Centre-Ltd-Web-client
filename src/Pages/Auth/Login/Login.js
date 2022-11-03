@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import Loading from "../../Shared/Loading";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import useToken from "../../../hooks/useToken";
 
 const Login = () => {
   const {
@@ -19,6 +20,8 @@ const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
+  const [token] = useToken(user || user);
+
   let errorMessage;
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,11 +32,11 @@ const Login = () => {
     signInWithEmailAndPassword(data.email, data.password);
   };
   useEffect(() => {
-    if (guser || user) {
+    if (token) {
       // console.log(guser, user);
       navigate(from, { replace: true });
     }
-  }, [user, guser, from, navigate]);
+  }, [token, from, navigate]);
 
   if (loading || gloading) {
     return <Loading />;
